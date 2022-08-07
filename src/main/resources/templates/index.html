@@ -1,0 +1,12 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      layout:decorate="layout/main.html">
+<div layout:fragment="page">
+<h2 class="mt-2" sec:authorize = "isAuthenticated()" th:text="'Welcome ' + ${user.fullName}"></h2>
+    <div class="row" id="courses">
+
+    </div>
+</div>
+</body>
+</html>

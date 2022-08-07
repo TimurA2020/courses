@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{'/css/style.css'}">
+</head>
+<body onload="loadCourses()">
+<nav class="navbar navbar-expand-lg bg-primary mt-0" th:insert="~{navbar}"></nav>
+<div layout:fragment="page" class="page"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    function loadCourses(){
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            const result = this.responseText;
+            var courseList = JSON.parse(result);
+            var htmlCode = "";
+            console.log(courseList.length);
+
+            for (i = 0; i < courseList.length; i++){
+                htmlCode += "<div class='col-6 mt-4 mb-4'>";
+                htmlCode += "<div class=\"card-body\">";
+                htmlCode += "<span class=\"fs-4 fw-bold\">Course category: </span><span class=\"badge bg-warning fs-4\" style=\"padding: 4px 7px;\">" + courseList[i]["courseCategory"]["name"] + "</span>";
+                htmlCode += "<h5 class=\"card-title\">" + courseList[i]["name"] + "</h5>";
+                htmlCode += "<p class=\"card-text\">" + courseList[i]["description"] + "</p>";
+                htmlCode += "<p class=\"card-text\">Price: " + courseList[i]["price"] +  " </p>";
+                htmlCode += "<a href='details/" + courseList[i]["id"] + "' class=\"btn btn-success\">Details</a>"
+                htmlCode += "</div></div>";
+            }
+            document.getElementById("courses").innerHTML = htmlCode;
+            //     this.getAllResponseHeaders();
+        }
+        xhttp.open("GET", "http://localhost:8075/api/courses");
+        xhttp.send();
+    }
+</script>
+</body>
+</html>
